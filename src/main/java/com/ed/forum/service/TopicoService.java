@@ -16,6 +16,11 @@ public class TopicoService {
   }
 
   @Transactional
+  public boolean existsByTituloAndMensagem(String titulo, String mensagem) {
+    return topicoRepository.existsByTituloAndMensagem(titulo, mensagem);
+  }
+
+  @Transactional
   public Topico salvar(Topico topico) {
     if (topicoRepository.existsByTituloAndMensagem(topico.getTitulo(), topico.getMensagem())) {
       throw new IllegalArgumentException("Tópico duplicado: título e mensagem já existem.");

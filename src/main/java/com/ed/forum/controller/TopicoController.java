@@ -3,7 +3,6 @@ package com.ed.forum.controller;
 import com.ed.forum.model.Topico;
 import com.ed.forum.service.TopicoService;
 import com.ed.forum.service.TokenService;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +27,6 @@ public class TopicoController {
     }
 
     @PostMapping
-    @Transactional
     public ResponseEntity<Topico> criarTopico(@RequestBody @Valid Topico topico,
             @RequestHeader("Authorization") String token) {
         if (!tokenService.validarToken(token)) {
@@ -49,6 +47,27 @@ public class TopicoController {
         Optional<Topico> topico = topicoService.buscarPorId(id);
         return topico.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Topico> atualizarTopico(@PathVariable Long id,
+            @RequestBody @Valid Topico topico,
+            @RequestHeader("Authorization") String token) {
+        if (!tokenService.validarToken(token)) {
+            return ResponseEntity.status(401).build();
+        }
+
+        Optional<Topico> topicoExistente = topicoService.buscarPorId(id);
+        if (!topicoExistente.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Topico topicoAtualizado = topicoExistente.get();
+        topicoAtualizado.setTitulo(topico.getTitulo());
+        topicoAtualizado.setMensagem(topico.getMensagem());
+
+        Topico salvo = topicoService.salvar(topicoAtualizado);
+        return ResponseEntity.ok(salvo);
     }
 
     @DeleteMapping("/{id}")

@@ -14,8 +14,8 @@ CREATE TABLE usuario_perfil (
     usuario_id BIGINT NOT NULL,
     perfil_id BIGINT NOT NULL,
     PRIMARY KEY (usuario_id, perfil_id),
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-    FOREIGN KEY (perfil_id) REFERENCES perfil(id)
+    CONSTRAINT fk_up_usuario_id FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE,
+    CONSTRAINT fk_up_perfil_id FOREIGN KEY (perfil_id) REFERENCES perfil(id) ON DELETE CASCADE
 );
 
 CREATE TABLE curso (
@@ -29,11 +29,12 @@ CREATE TABLE topico (
     titulo VARCHAR(255) NOT NULL,
     mensagem TEXT NOT NULL,
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(255) NOT NULL,
-    autor_id BIGINT NOT NULL,
+    status VARCHAR(255) NULL,
+    autor_id BIGINT  NULL,
     curso_id BIGINT NOT NULL,
-    FOREIGN KEY (autor_id) REFERENCES usuario(id),
-    FOREIGN KEY (curso_id) REFERENCES curso(id)
+    CONSTRAINT fk_topico_autor_id FOREIGN KEY (autor_id) REFERENCES usuario(id) ON DELETE SET NULL,
+    CONSTRAINT fk_topico_curso_id FOREIGN KEY (curso_id) REFERENCES curso(id) ON DELETE CASCADE,
+    INDEX idx_topico_titulo (titulo)
 );
 
 CREATE TABLE resposta (
@@ -43,6 +44,6 @@ CREATE TABLE resposta (
     solucao BOOLEAN DEFAULT FALSE,
     autor_id BIGINT NOT NULL,
     topico_id BIGINT NOT NULL,
-    FOREIGN KEY (autor_id) REFERENCES usuario(id),
-    FOREIGN KEY (topico_id) REFERENCES topico(id)
+    CONSTRAINT fk_resposta_autor_id FOREIGN KEY (autor_id) REFERENCES usuario(id)  ON DELETE CASCADE,
+    CONSTRAINT fk_resposta_topico_id FOREIGN KEY (topico_id) REFERENCES topico(id) ON DELETE CASCADE
 );

@@ -3,8 +3,6 @@ package com.ed.forum.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,8 +36,4 @@ public class Usuario {
     @JoinTable(name = "usuario_perfil", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "perfil_id"))
     private Set<Perfil> perfis = new HashSet<>();
 
-    @JsonCreator
-    public Usuario(@JsonProperty("email") String email) {
-        this.email = email;
-    }
 }
