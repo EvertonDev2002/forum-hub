@@ -13,6 +13,7 @@ Esta é uma API para um sistema de fórum, construído com o Spring Boot, Hibern
 ### Funcionalidades
 
 A API oferece os seguintes recursos:
+
 - **Autenticação e Autorização**: Os usuários podem fazer login e acessar funcionalidades protegidas.
 - **Criação de Tópicos**: Usuários autenticados podem criar novos tópicos de discussão.
 - **Postagem de Respostas**: Permite que os usuários respondam aos tópicos criados.
@@ -23,9 +24,19 @@ A API oferece os seguintes recursos:
 
 A documentação interativa da API está disponível no seguinte link:
 
-  ```http://localhost:8080/swagger-ui.html```
+`http://localhost:8080/swagger-ui.html`
+
+### Usuário padrão
+
+```json
+{
+  "email": "admin@forum.com",
+  "password": "123"
+}
+```
 
 Essa URL assume que a aplicação está rodando localmente na porta 8080. Caso esteja em outro ambiente ou porta, ajuste o link conforme necessário.
+
 ### Validação de Token JWT
 
 - O token JWT gerado na autenticação será utilizado para validar o acesso aos endpoints da API.
